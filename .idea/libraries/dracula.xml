@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="dracula" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$USER_HOME$/Downloads/dracula-master" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$USER_HOME$/Downloads/dracula-master" />
+    </CLASSES>
+    <DOCUMENTATION>
+      <root url="https://github.com/strathausen/dracula.git" />
+    </DOCUMENTATION>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
