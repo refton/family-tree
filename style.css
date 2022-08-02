@@ -1,0 +1,7 @@
+.node.male>rect {
+    fill: rgba(19, 150, 221, 0.65);
+}
+
+.node.female>rect {
+    fill: rgba(200, 122, 210, 0.65);
+}

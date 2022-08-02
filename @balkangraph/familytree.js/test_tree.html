@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script src="https://balkan.app/js/familytree.js"></script>
+    <div id="tree"/>
+    <script>
+    var family = new FamilyTree(document.getElementById("tree"), {
+    // mouseScrool: FamilyTree.action.none,
+    nodeBinding: {
+        field_0: "name"
+    },
+    nodes: [
+        { id: 1, pids: [2], tags: ['yellow'], name: "Amber McKenzie", gender: "female" },
+        { id: 2, pids: [1], name: "Ava Field", gender: "male" },
+        { id: 3, mid: 1, fid: 2, name: "Peter Stevens", gender: "male" },
+        { id: 4, mid: 1, fid: 2, name: "Eliot Stevens", gender: "male" },
+        { id: 5, mid: 1, fid: 2, tags: ['yellow'], name: "Emma Stevens", gender: "female" }
+    ]
+});
+
+family.on('init', function (sender) { sender.editUI.show(1, true); });
+    </script>
+
+</body>
+</html>
