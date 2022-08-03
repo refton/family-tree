@@ -15,7 +15,7 @@ function convert(obj) {
     }));
 }
 
-function checkMarriges(person, siblings) {
+function checkMarriages (person, siblings) {
     let partners = []
     for (let i = 0; i < siblings.length; i++) {
         if (siblings[i].includes(person)) {
@@ -41,16 +41,42 @@ function findParents(person, parents) {
     return []
 }
 
-let persons = {0: '0',1: '1',2: '2',3: '3',4: '4',5: '5',6: '6',7: '7',8: '8',9: '9',10: '10',11: '11',12: '12',13: '13',14: '14',15: '15',}
+/**
+ *
+ * @param {int} person - Person for serching ID
+ * @param {array} listPersonParam - List with params where ID's value searching
+ * @returns {*[]}
+ *
+ */
+function findParamById(person, listPersonParam) {
+    for (let i = 0; i < listPersonParam.length; i++) {
+        if (listPersonParam[i][0] === person) {
+            return [listPersonParam[i][1]]
+        }
+    }
+
+    return []
+}
+
+/**
+ *
+ * @type {{dictionary}} data - Data from Google Sheets, where you fill parents information
+ */
+let data = {}
+
+let persons = data['persons']
 persons = convert(persons)
-let siblings = [[0,1],[8,9],[3,2],[4,5],[10,11],[14,12],[14,13],]
-let parents = [[5,8,9],[7,4,5],[6,4,5],[4,3,2],[2,0,1],[7,4,5],[9,14,13],[15,14,12],[1,10,11],]
+let siblings = data['siblings']
+let parents = data['parents']
+let otherSurname = data['otherSurname']
+let birthDate = data['birthDate']
+let depthDate = data['depthDate']
 let nodesList = []
 
 for (let i = 0; i < persons.length; i++) {
     let node = '{"id": ' + '' + i + '' + ','
 
-    let partners = checkMarriges(i, siblings)
+    let partners = checkMarriages(i, siblings)
     if (partners.length > 0) {
         node = node + '"pids": ' + '[' + partners + ']' + ','
     }
@@ -60,15 +86,62 @@ for (let i = 0; i < persons.length; i++) {
         node = node + '"mid":' + persParents[0] + ',"fid":' + persParents[1] + ','
     }
 
-    node = node + '"name":' + '"' +  persons[i]['name'] + '"' + '}'
+    let persOtherSurname = findParamById(i, otherSurname)
+    if (persOtherSurname.length > 0) {
+        node = node + '"otherSurname": "' + persOtherSurname[0] + '",'
+    }
+
+    let persBirthDate = findParamById(i, birthDate)
+    if (persBirthDate.length > 0) {
+        node = node + '"birthDate": "' + persBirthDate[0] + '",'
+    }
+
+    let persDepthDate = findParamById(i, depthDate)
+    if (persDepthDate.length > 0) {
+        node = node + '"depthDate": "' + persDepthDate[0] + '",'
+    }
+
+    node = node + '"name":' + '"' +  persons[i]['name'] + '"' + ','
+
+    let otchestvo = persons[i]['name'].split(' ')[2]
+    console.log(otchestvo)
+    try {
+        var gender = petrovich.detect_gender(otchestvo)
+        console.log(gender)
+    }
+    catch (error) {
+        console.log('There is a mistake while trying to get gender by this otchestvo: ' + otchestvo + ", mistake:")
+        console.log(error)
+        var gender = undefined
+    }
+    node = node + '"gender":' + '"' +  gender + '"' + '}'
 
     nodesList.push(JSON.parse(node))
+    console.log(nodesList)
 }
+
+FamilyTree.templates.myTemplate = Object.assign({}, FamilyTree.templates.tommy);
+FamilyTree.templates.myTemplate_female = Object.assign({}, FamilyTree.templates.tommy_female);
+FamilyTree.templates.myTemplate_male = Object.assign({}, FamilyTree.templates.tommy_male);
+FamilyTree.templates.myTemplate_female.field_0 = '<text data-width="230" data-text-overflow="multiline"  style="font-size: 20px;" fill="#fff" x="125" y="40" text-anchor="middle">{val}</text>';
+FamilyTree.templates.myTemplate_female.field_1 = '<text data-width="230" data-text-overflow="ellipsis" style="font-size: 12px;" fill="#fff" x="125" y="80" text-anchor="middle">{val}</text>';
+FamilyTree.templates.myTemplate_male.field_0 = '<text data-width="230" data-text-overflow="multiline"  style="font-size: 20px;" fill="#fff" x="125" y="40" text-anchor="middle">{val}</text>';
+FamilyTree.templates.myTemplate_male.field_1 = '<text data-width="230" data-text-overflow="ellipsis" style="font-size: 12px;" fill="#fff" x="125" y="80" text-anchor="middle">{val}</text>';
+
+FamilyTree.templates.myTemplate_female.field_2 = '<text data-width="230" data-text-overflow="multiline"  style="font-size: 12px;" fill="#fff" x="15" y="110" text-anchor="start">{val}</text>';
+FamilyTree.templates.myTemplate_female.field_3 = '<text data-width="230" data-text-overflow="ellipsis" style="font-size: 12px;" fill="#fff" x="225" y="110" text-anchor="end">{val}</text>';
+FamilyTree.templates.myTemplate_male.field_2 = '<text data-width="230" data-text-overflow="multiline"  style="font-size: 12px;" fill="#fff" x="15" y="110" text-anchor="start">{val}</text>';
+FamilyTree.templates.myTemplate_male.field_3 = '<text data-width="230" data-text-overflow="ellipsis" style="font-size: 12px;" fill="#fff" x="225" y="110" text-anchor="end">{val}</text>';
 
 var family = new FamilyTree(document.getElementById("tree"), {
     mouseScrool: FamilyTree.action.none,
+    template: "myTemplate",
     nodeBinding: {
-        field_0: "name"
+        field_0: "name",
+        field_1: "otherSurname",
+        field_2: 'birthDate',
+        field_3: 'depthDate',
+        field_4: 'placeOfBorn'
     },
     nodes: nodesList
 });

@@ -2,6 +2,7 @@
   "dependencies": {
     "exports": "^0.0.1",
     "googleapis": "^105.0.0",
+    "petrovich": "^0.2.1",
     "requirejs": "^2.3.6"
   }
 }
