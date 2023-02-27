@@ -119,7 +119,6 @@ function workWork() {
 
         currentPerson.deathDate = currentPerson.setParam(deathDate)
         if (currentPerson.deathDate === undefined) { delete currentPerson.deathDate}
-
     }
     console.log(persons_list)
 
@@ -170,3 +169,22 @@ function workWork() {
 }
 
 workWork()
+
+// var data = {
+//       name: "cliff",
+//       age: "34",
+//     }
+//
+// var jsonData = JSON.stringify(data);
+//
+// function download(content, fileName, contentType) {
+//     var a = document.createElement("a");
+//     var file = new Blob([content], {type: contentType});
+//     a.href = URL.createObjectURL(file);
+//     a.download = fileName;
+//     a.click();
+// }
+// download(jsonData, '/json.txt', 'text/plain');
+// var script = document.currentScript;
+// var fullUrl = script.src;
+// console.log(fullUrl)
