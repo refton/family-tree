@@ -1,20 +1,20 @@
 .node.male>rect {
-    fill: rgba(19, 150, 221, 0.65);
+  fill: rgb(160, 224, 229);
 }
 
 .node.female>rect {
-    fill: rgba(200, 122, 210, 0.65);
+  fill: rgb(255, 172, 186);
 }
 
 html, body{
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin:0;
-  overflow: hidden;
-  font-family: Helvetica;
+width: 100%;
+height: 100%;
+padding: 0;
+margin:0;
+overflow: hidden;
+font-family: Helvetica;
 }
 #tree{
-  width:100%;
-  height:100%;
+width:100%;
+height:100%;
 }
